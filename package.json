@@ -1,0 +1,21 @@
+{
+  "name": "aae",
+  "version": "1.0.0",
+  "description": "Traffic Reporter",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "traffic",
+    "cars",
+    "graphics"
+  ],
+  "dependencies": {
+    "body-parser": "*",
+    "express": "^4.16.2",
+    "mongoose": "^5.0.3"
+  },
+  "author": "4AV",
+  "license": "ISC"
+}
