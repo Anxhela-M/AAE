@@ -22,4 +22,4 @@ let daysSchema = mongoose.Schema({
    } 
 });
 
-let Day = module.exports = mongoose.model('Day',daySchema);
+let Day = module.exports = mongoose.model('Day',daysSchema);
