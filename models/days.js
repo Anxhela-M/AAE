@@ -9,7 +9,7 @@ let daysSchema = mongoose.Schema({
    	  required: true
    },
    timestamp: {
-   	  type: Number, 
+   	  type: String, 
    	  required: true
    },
    numberOfCars: {

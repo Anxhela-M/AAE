@@ -9,7 +9,7 @@ let hoursSchema = mongoose.Schema({
    	  required: true
    },
    timestamp: {
-   	  type: Number, 
+   	  type: String, 
    	  required: true
    },
    numberOfCars: {
