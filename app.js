@@ -56,6 +56,16 @@ app.get('/getHoursData', function(req, res){
 	});
 });
 
+app.get('/getDailyData', function(req, res){
+	//res.send("Helloo world");
+	days.find({}, function(err, days){
+        if(err){
+        	console.log('error');
+        }
+        res.json(days);
+	});
+});
+
 app.get('/minutes', function(req, res){
 	// res.send("Helloo minutes");
 	/*db.minutes.find({"eq_id": 1}, function(err, minutes){

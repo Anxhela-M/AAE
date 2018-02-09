@@ -6,25 +6,11 @@ function drawMinutes() {
 		success: function(data) {
 
  			data.forEach(function(d, ind){
-   			 	dataMin[ind]={y:   d.numberOfCars}
+   			 	dataMin[ind]={y:   d.numberOfCars, label: d.timestamp.substring(16, 21)}
  			})
 			console.log(data[0].numberOfCars)
 
-			var chart = new CanvasJS.Chart("minutesGraph", {
-				animationEnabled: true,
-				theme: "light2",
-				title:{
-					text: "Simple Line Chart"
-				},
-				axisY:{
-					includeZero: false
-				},
-				data: [{        
-					type: "line",       
-					dataPoints: dataMin
-				}]
-			});
-			chart.render();
+			drawChart(dataMin, "minutesGraph", "Current Traffic Reporter", "Number Of Cars", "line");
 		}
 	})
 }
@@ -45,30 +31,45 @@ function drawHours(){
  		})
 
 		console.log(data[0].numberOfCars)
+		drawChart(dataHour, "hoursGraph", "Hourly Traffic Reporter", "Number Of Cars", "column")
+	}
+	})
+}
 
-			
+var dailyData = []
 
-		var chart = new CanvasJS.Chart("hoursGraph", {
+function drawDays(){
+	$.ajax({
+		url: '/getDailyData',
+		success: function(data) {
+ 			data.forEach(function(d, ind){
+   				dailyData[ind]={y: d.numberOfCars, label: d.timestamp.substring(8, 10)
+   			}
+ 		})
+
+		console.log(data[0].numberOfCars)
+		drawChart(dailyData, "dailyGraph", "Daily Traffic Reporter", "Number Of Cars", "column")
+	}
+	})
+} 
+
+function drawChart(data, divId, text, y, type){
+	var chart = new CanvasJS.Chart(divId, {
 			animationEnabled: true,
 			theme: "light2", // "light1", "light2", "dark1", "dark2"
 			title:{
-				text: "Top Oil Reserves"
+				text: text
 			},
 			axisY: {
-				title: "Reserves(MMbbl)"
+				title: y
 			},
 			data: [{        
-				type: "column",  
-				showInLegend: true, 
-				legendMarkerColor: "grey",
-				legendText: "MMbbl = one million barrels",
-				dataPoints: dataHour
+				type: type,  
+				dataPoints: data
 			}]
 		});
 		chart.render();
-	}
-	})
-}  
+} 
 
 
 
@@ -80,5 +81,7 @@ $(function(){
 	drawHours()
 	setInterval(drawHours(), 60 * 60 * 1000)
 
+	drawDays()
+	setInterval(drawDays(), 24 * 60 * 60 * 1000)
 
 })
