@@ -6,6 +6,7 @@ const db_connection = require('./models/db_connection.js')
 const db_generator = require('./models/generator.js')
 const min_calculator = require('./models/calculateHoursFromMinutes.js')
 const hour_calculator = require('./models/calculateDaysFromHours.js')
+const ejs = require('ejs')
 
 // Models
 let equipment = require('./models/equipment');
@@ -20,14 +21,58 @@ const app = express();
 db_connection();
 db_generator();
 
-app.get('/', function(req, res){
-	res.send("Helloo world");
-	equipment.find({}, function(err, equipments){
+
+//const minutesData = require('./models/getMinutesData.js')
+
+
+app.set('view engine', 'ejs')
+app.set('views', path.join(__dirname, 'view'))
+app.use(express.static(path.join(__dirname, 'public')))
+
+// routes
+
+app.get('/', function(req, res) {
+	res.render('index')
+})
+
+app.get('/getData', function(req, res){
+	//res.send("Helloo world");
+	minutes.find({}, function(err, minutes){
         if(err){
         	console.log('error');
         }
-        res.write(equipments);
+        res.json(minutes);
 	});
+});
+
+
+app.get('/getHoursData', function(req, res){
+	//res.send("Helloo world");
+	hours.find({}, function(err, hours){
+        if(err){
+        	console.log('error');
+        }
+        res.json(hours);
+	});
+});
+
+app.get('/minutes', function(req, res){
+	// res.send("Helloo minutes");
+	/*db.minutes.find({"eq_id": 1}, function(err, minutes){
+    	res.send(JSON.stringify(minutes));
+    });*/
+   // res.send(minutesData());
+   let db = mongoose.connection;
+   minutes.find({'eq_id': 1}, function(err, minutes){
+    	if(err){
+        	console.log('error');
+    	}
+    	if(minutes != null){
+    		console.log("minutes to display: " + JSON.stringify(minutes));
+    	res.send(JSON.stringify(minutes));
+    	}
+    	
+    });
 });
 
 
