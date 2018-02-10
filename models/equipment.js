@@ -8,9 +8,13 @@ let equipmentSchema = mongoose.Schema({
    	  type: Number,
    	  required: true
    },
-   eq_address: {
+   eq_lat: {
    	  type: Number, 
    	  required: true
+   },
+   eq_lng: {
+        type: Number, 
+        required: true
    },
    eq_name: {
       type: String,

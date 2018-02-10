@@ -9,7 +9,7 @@ const hour_calculator = require('./models/calculateDaysFromHours.js')
 const ejs = require('ejs')
 
 // Models
-let equipment = require('./models/equipment');
+let equipments = require('./models/equipment');
 let minutes = require('./models/minutes');
 let hours = require('./models/hours');
 let days = require('./models/days');
@@ -21,10 +21,6 @@ const app = express();
 db_connection();
 db_generator();
 
-
-//const minutesData = require('./models/getMinutesData.js')
-
-
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'view'))
 app.use(express.static(path.join(__dirname, 'public')))
@@ -35,9 +31,9 @@ app.get('/', function(req, res) {
 	res.render('index')
 })
 
-app.get('/getData', function(req, res){
-	//res.send("Helloo world");
-	minutes.find({}, function(err, minutes){
+app.get('/api/getData', function(req, res){
+	var q = minutes.find({}).limit(30);
+	q.find({}, function(err, minutes){
         if(err){
         	console.log('error');
         }
@@ -45,10 +41,19 @@ app.get('/getData', function(req, res){
 	});
 });
 
+app.get('/api/getLastMinute', function(req, res){
+	var q = minutes.find({}).limit(1);
+	q.exec(function(err, minutes){
+        if(err){
+        	console.log('error');
+        }
+        res.json(minutes);
+	});
+});
 
-app.get('/getHoursData', function(req, res){
-	//res.send("Helloo world");
-	hours.find({}, function(err, hours){
+app.get('/api/getHoursData', function(req, res){
+	var q = hours.find({}).limit(24);
+	q.exec(function(err, hours){
         if(err){
         	console.log('error');
         }
@@ -56,9 +61,9 @@ app.get('/getHoursData', function(req, res){
 	});
 });
 
-app.get('/getDailyData', function(req, res){
-	//res.send("Helloo world");
-	days.find({}, function(err, days){
+app.get('/api/getDailyData', function(req, res){
+	var q = days.find({}).limit(30);
+	q.find({}, function(err, days){
         if(err){
         	console.log('error');
         }
@@ -66,25 +71,25 @@ app.get('/getDailyData', function(req, res){
 	});
 });
 
-app.get('/minutes', function(req, res){
-	// res.send("Helloo minutes");
-	/*db.minutes.find({"eq_id": 1}, function(err, minutes){
-    	res.send(JSON.stringify(minutes));
-    });*/
-   // res.send(minutesData());
-   let db = mongoose.connection;
-   minutes.find({'eq_id': 1}, function(err, minutes){
-    	if(err){
+app.get('/api/getEquipments', function(req, res){
+	equipments.find({}, function(err, equipments){
+        if(err){
         	console.log('error');
-    	}
-    	if(minutes != null){
-    		console.log("minutes to display: " + JSON.stringify(minutes));
-    	res.send(JSON.stringify(minutes));
-    	}
-    	
-    });
+        }
+        console.log("eq" + equipments)
+        res.json(equipments);
+	});
 });
 
+app.get('/api/getMonthlyData', function(req, res){
+	var q = months.find({}).limit(12);
+	q.find({}, function(err, months){
+        if(err){
+        	console.log('error');
+        }
+        res.json(months);
+	});
+});
 
 app.listen(3000, function(){
 	console.log('Server started on port 3000 ... ');

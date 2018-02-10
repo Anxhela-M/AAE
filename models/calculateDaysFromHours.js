@@ -39,7 +39,10 @@ var dayCalc = function calculate(){
 	id = id + 1;
 	console.log('day comp: ' + JSON.stringify(item));
 
-	hours.remove({'eq_id': 1}).exec();	
+
+	q = hours.find({}).limit(24);
+
+	q.remove({'eq_id': 1}).exec();	
 }	
 setInterval(dayCalc, 24 * 60 * 60 * 1000);
 module.exports = dayCalc;

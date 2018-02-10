@@ -84,31 +84,16 @@
               <a class="nav-link" href="#hoursGraph">Hourly Graph</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Daily Graph</a>
+              <a class="nav-link" href="#dailyGraph">Daily Graph</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Monthly Graph</a>
+              <a class="nav-link" href="#monthlyGraph">Monthly Graph</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
 
-   <!-- <header class="masthead text-center text-white">
-      <div class="masthead-content">
-        <div class="container">
-           <h1 class="masthead-heading mb-0">One Page Wonder</h1>
-          <h2 class="masthead-subheading mb-0">Will Rock Your Socks Off</h2>
-          <a href="#" class="btn btn-primary btn-xl rounded-pill mt-5">Learn More</a>  -->
-
-          
-      <!--  </div>
-      </div>
-      <div class="bg-circle-1 bg-circle"></div>
-      <div class="bg-circle-2 bg-circle"></div>
-      <div class="bg-circle-3 bg-circle"></div>
-      <div class="bg-circle-4 bg-circle"></div>  -->
-  <!--  </header>  -->
 
   <div id = "map" height=500px></div>
 
@@ -164,6 +149,14 @@
       </div>
     </section>
 
+    <section>
+      <div class="container">
+        <div class="row align-items-center">
+          <div id="monthlyGraph" style="width: 100%; height: 500px">  </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Footer -->
     <footer class="py-5 bg-black">
       <div class="container">
@@ -179,41 +172,45 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/canvasjs/1.7.0/canvasjs.js"></script>
 	<script src="js/getData.js"></script>
 	<script>
-      function initMap() {
-        var myLatlng = {lat: 39.653889, lng: 20.158611};
+		var eq = [];
+		function init(){
+			var d;
+      		$.ajax({
+				url: '/api/getEquipments',
+				success: function(data) {
+					d = data;
+ 					data.forEach(function(d){
+ 						console.log('d' + d)
+   						eq.push({
+  							x: d.eq_lat,
+   							y: d.eq_lng
+   						})
+   					})
+ 					var myLatlng = {lat: 39.653889, lng: 20.158611};
 
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 10,
-          center: myLatlng
-        });
+		        	var map = new google.maps.Map(document.getElementById('map'), {
+		          		zoom: 10,
+		          		center: myLatlng
+		        	});
 
-        var marker = new google.maps.Marker({
-          position: myLatlng,
-          map: map,
-          title: 'Click to zoom'
-        });
-
-        var marker2 = new google.maps.Marker({
-          position: {lat: 39.907778, lng: 20.358333},
-          map: map,
-          title: 'Click to zoom'
-        });
-        
-
-        map.addListener('center_changed', function() {
-          // 3 seconds after the center of the map has changed, pan back to the
-          // marker.
-          window.setTimeout(function() {
-            map.panTo(marker.getPosition());
-          }, 3000);
-        });
-
-        marker.addListener('click', function() {
-          // information about number of cars in this coordinate
-        });
-      }
+		        	console.log("locations" + eq);
+		        	//eq.push(myLatlng)
+		        	var marker;
+		        	var markers = [];
+		        	for(var i = 0; i < eq.length; i++){
+		        		marker =  new google.maps.Marker({
+		         			position: myLatlng, // eq[i],
+		          	 		map: map,
+		          			title: ''
+		       			});
+		       			markers.push(marker)
+		        	}
+					console.log("DATA: " +  d)
+				}
+			})
+		}
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9VnyOo4ViyOOL9hKetuTQiQ_NNvQGNtA&callback=initMap"
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9VnyOo4ViyOOL9hKetuTQiQ_NNvQGNtA&callback=init"
   type="text/javascript"></script>
 
   </body>
