@@ -9,12 +9,13 @@ var generator = function(){
 	var today = new Date();
 	var myToday = new Date(today.getFullYear(), today.getMonth(), today.getDate(), today.getHours(), today.getMinutes(), today.getSeconds());
 	var nr = Math.floor(Math.random() * 100) + 1;
+	var eq_id = Math.floor(Math.random() * 3) + 1;
 
 	var item = new minutes({
 		min_id: id,
 	 	numberOfCars: nr,
 	 	timestamp: myToday,
-	 	eq_id: 1
+	 	eq_id: eq_id
 	});
 	item.save(function(error){
 		console.log('u ruajt');

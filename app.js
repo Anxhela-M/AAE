@@ -9,7 +9,7 @@ const hour_calculator = require('./models/calculateDaysFromHours.js')
 const ejs = require('ejs')
 
 // Models
-let equipments = require('./models/equipment');
+let equipments = require('./models/equipments');
 let minutes = require('./models/minutes');
 let hours = require('./models/hours');
 let days = require('./models/days');
@@ -29,6 +29,10 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.get('/', function(req, res) {
 	res.render('index')
+})
+
+app.get('/dashboard', function(req, res) {
+	res.render('dashboard')
 })
 
 app.get('/api/getData', function(req, res){

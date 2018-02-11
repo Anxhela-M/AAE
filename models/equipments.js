@@ -1,6 +1,5 @@
 let mongoose = require('mongoose');
 
-
 // Equipment schema
 
 let equipmentSchema = mongoose.Schema({
@@ -9,11 +8,11 @@ let equipmentSchema = mongoose.Schema({
    	  required: true
    },
    eq_lat: {
-   	  type: Number, 
+   	  type: String, 
    	  required: true
    },
    eq_lng: {
-        type: Number, 
+        type: String, 
         required: true
    },
    eq_name: {

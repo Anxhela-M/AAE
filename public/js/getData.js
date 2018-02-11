@@ -53,7 +53,6 @@ function drawMinutes() {
 }
 
 
-
 var dataHour = []
 
 function drawHours(){
@@ -127,25 +126,6 @@ function drawChart(data, divId, text, y, type){
 
 		return chart;
 } 
-/*var eq;
-function drawMap(){
-	$.ajax({
-		url: '/api/getEquipments',
-		success: function(data) {
- 			data.forEach(function(d){
-   				eq.push({
-  					x: d.eq_lat,
-   					y: d.eq_lng
-   				})
-   			})
-
- 			initMap()
-
- 		}
-	})
-}*/
-
-
 
 $(function(){
 	
